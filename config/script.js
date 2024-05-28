@@ -1,4 +1,4 @@
-document.querySelector('#download-btn').addEventListener('click', ()=>{
+document.querySelector('#download-btn').addEventListener('click', async ()=>{
     let UrlQuery = document.querySelector('#query-download');
     if(UrlQuery.value === ''){
         return Swal.fire({
@@ -9,7 +9,7 @@ document.querySelector('#download-btn').addEventListener('click', ()=>{
     }else if(!UrlQuery.value.includes('tiktok.com')){
         Swal.fire({
             title: "Upsss!",
-            text: "Kamu memasukkan url yang mana tuh :>?",
+            text: "Kamu memasukkan link url yang salah bro! :>",
             icon: "error"
         });
     }
@@ -26,12 +26,24 @@ document.querySelector('#download-btn').addEventListener('click', ()=>{
                 // console.log(Response.result);
                 document.querySelector('.download-area').innerHTML = fragment(Response.result);
             });
+            document.querySelector('.download-area').innerHTML = await loading_fragment();
             UrlQuery.value = '';
+    }
+})
+document.querySelector('#clipboard-btn').addEventListener('click', ()=>{
+    if (navigator.clipboard) {
+        navigator.clipboard.readText().then(text => {
+            const targetElement = document.querySelector('#query-download');
+            targetElement.value = text;
+        });
+    } else {
+        alert('Clipboardnya kosong wak!');
     }
 })
 
 function fragment(m){
-    return `<div class="row g-0 text-center mt-4">
+    return `<hr class="container">
+            <div class="row g-0 text-center mt-4">
                 <div class="col-6 col-md-4">
                     <h4 class="salsa-font">Video Details:</h4>
                     <img src="${m.author.avatar}" alt="" class="w-50 h-50 rounded-circle mb-2">
@@ -60,3 +72,16 @@ function fragment(m){
                 </div>
             </div>`;
 };
+function loading_fragment(){
+    return `<div class="parent-loading d-flex justify-content-center mt-5">
+                <div class="spinner-grow text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-danger mx-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-success" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>`;
+}
