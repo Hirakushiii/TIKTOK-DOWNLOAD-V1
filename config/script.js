@@ -15,30 +15,15 @@ document.querySelector('#download-btn').addEventListener('click', async ()=>{
     }
     else{
         let apikey = 'https://api.nyx.my.id/dl/tiktok?url='
-        fetch(`${apikey}${UrlQuery.value}`, {
-            mode: 'no-cors'
-        })
+        fetch(`${apikey}${UrlQuery.value}`)
             .then((response) =>{
                 if (!response.ok){
-                    return async () => {
-                        await Swal.fire({
-                            title: "Upsss!",
-                            text: `${response.statusText}`,
-                            icon: "error"
-                        })
-                        location.reload();
-                    }
-                }
+                    console.error(response.statusText);
+                };
                 return response.json();
             }).then((Response) =>{
                 // console.log(Response.result);
                 document.querySelector('.download-area').innerHTML = fragment(Response.result);
-            }).catch(error =>{
-                return Swal.fire({
-                    title: "Upsss!",
-                    text: `${error}`,
-                    icon: "error"
-                });
             });
             document.querySelector('.download-area').innerHTML = await loading_fragment();
             UrlQuery.value = '';
@@ -58,7 +43,7 @@ document.querySelector('#clipboard-btn').addEventListener('click', ()=>{
 function fragment(m){
     return `<hr class="container">
             <div class="row g-0 text-center mt-4">
-                <div class="col-6 col-md-4">
+                <div class="col-6 col-md-4 device-center">
                     <h4 class="salsa-font">Video Details:</h4>
                     <img src="${m.author.avatar}" alt="" class="w-50 h-50 rounded-circle mb-2">
                     <p class="account-name">${m.author.nickname}</p>
