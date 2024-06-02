@@ -15,16 +15,30 @@ document.querySelector('#download-btn').addEventListener('click', async ()=>{
     }
     else{
         let apikey = 'https://api.nyx.my.id/dl/tiktok?url='
-        fetch(`${apikey}${UrlQuery.value}`)
+        fetch(`${apikey}${UrlQuery.value}`, {
+            mode: 'no-cors'
+        })
             .then((response) =>{
-                if (!response.ok) {
-                    throw new Error(response.statusText);
-                    // response.statusText
+                if (!response.ok){
+                    return async () => {
+                        await Swal.fire({
+                            title: "Upsss!",
+                            text: `${response.statusText}`,
+                            icon: "error"
+                        })
+                        location.reload();
+                    }
                 }
                 return response.json();
             }).then((Response) =>{
                 // console.log(Response.result);
                 document.querySelector('.download-area').innerHTML = fragment(Response.result);
+            }).catch(error =>{
+                return Swal.fire({
+                    title: "Upsss!",
+                    text: `${error}`,
+                    icon: "error"
+                });
             });
             document.querySelector('.download-area').innerHTML = await loading_fragment();
             UrlQuery.value = '';
