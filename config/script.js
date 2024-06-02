@@ -14,18 +14,31 @@ document.querySelector('#download-btn').addEventListener('click', async ()=>{
         });
     }
     else{
-        let apikey = 'https://api.nyx.my.id/dl/tiktok?url='
+
+        let apikey = 'https://api.nyx.my.id/dl/tiktok?url=';
         fetch(`${apikey}${UrlQuery.value}`)
             .then((response) =>{
                 if (!response.ok){
                     console.error(response.statusText);
                 };
                 return response.json();
-            }).then((Response) =>{
-                // console.log(Response.result);
-                document.querySelector('.download-area').innerHTML = fragment(Response.result);
+            }).then(async(Response) =>{
+                // BUAT VALIDASI APAKAH LINK TERSEBUT VIDEO ATAU FOTO SLIDESHOW!
+                // console.log(Response.result.type);
+                if( Response.result.type === "image"){
+                    const alldata = Response.result.images;
+                    let card = "";
+                    alldata.forEach(e => {
+                        card += Images_Fragment(e)
+                    });
+                    document.querySelector('.download-section').innerHTML = `<div class="container row row-cols-2 row-cols-md-3 g-4 mx-auto download-image-area"></div>`;
+                    document.querySelector('.download-image-area').innerHTML = card;
+                    document.querySelector('.download-image-area').innerHTML += `<a href="${Response.result.music}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 mt-3 w-100">DOWNLOAD AUDIO/MP3</a>`;
+                }else{
+                    document.querySelector('.download-section').innerHTML = Video_fragment(Response.result);
+                };
             });
-            document.querySelector('.download-area').innerHTML = await loading_fragment();
+            // document.querySelector('.download-video-area').innerHTML = await loading_fragment();
             UrlQuery.value = '';
     }
 })
@@ -40,37 +53,51 @@ document.querySelector('#clipboard-btn').addEventListener('click', ()=>{
     }
 })
 
-function fragment(m){
-    return `<hr class="container">
-            <div class="row g-0 text-center mt-4">
-                <div class="col-6 col-md-4 device-center">
-                    <h4 class="salsa-font">Video Details:</h4>
-                    <img src="${m.author.avatar}" alt="" class="w-50 h-50 rounded-circle mb-2">
-                    <p class="account-name">${m.author.nickname}</p>
-                    <p class="vid-content">${m.desc}</p>
-                </div>
-                <div class="col-sm-6 col-md-8">
-                    <h4 class="salsa-font">Download Video:</h4>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="${m.video1}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4</a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="${m.video2}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4 [2]</a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="${m.video_hd}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4 [HD]</a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="${m.video_watermark}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4 [WATERMARK]</a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="${m.music}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD AUDIO/MP3</a>
-                        </li>
-                    </ul>
+function Video_fragment(m){
+    return `<div class="container download-video-area">
+                <hr class="container">
+                <div class="row g-0 text-center mt-4">
+                    <div class="col-6 col-md-4 device-center">
+                        <h4 class="salsa-font">Video Details:</h4>
+                        <img src="${m.author.avatar}" alt="" class="w-50 h-50 rounded-circle mb-2">
+                        <p class="account-name">${m.author.nickname}</p>
+                        <p class="vid-content">${m.desc}</p>
+                    </div>
+                    <div class="col-sm-6 col-md-8">
+                        <h4 class="salsa-font">Download Video:</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <a href="${m.video1}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="${m.video2}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4 [2]</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="${m.video_hd}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4 [HD]</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="${m.video_watermark}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4 [WATERMARK]</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="${m.music}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD AUDIO/MP3</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>`;
 };
+function Images_Fragment(i){
+    return `
+                <div class="col">
+                    <div class="card">
+                        <img src="${i}" class="card-img-top">
+                        <div class="card-body">
+                            <a href="${i}" download="lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-100">DOWNLOAD PHOTO</a>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+}
 function loading_fragment(){
     return `<div class="parent-loading d-flex justify-content-center mt-5">
                 <div class="spinner-grow text-primary" role="status">
