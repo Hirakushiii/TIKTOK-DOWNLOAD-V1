@@ -1,3 +1,5 @@
+const apikey = 'https://api.nyx.my.id/dl/tiktok?url=';
+
 document.querySelector('#download-btn').addEventListener('click', async ()=>{
     let UrlQuery = document.querySelector('#query-download');
     if(UrlQuery.value === ''){
@@ -12,10 +14,19 @@ document.querySelector('#download-btn').addEventListener('click', async ()=>{
             text: "Kamu memasukkan link url yang salah bro! :>",
             icon: "error"
         });
-    }
-    else{
-
-        let apikey = 'https://api.nyx.my.id/dl/tiktok?url=';
+    }else if(UrlQuery.value.includes('tiktok.com/music')){
+        fetch(`${apikey}${UrlQuery.value}`)
+            .then((response) =>{
+                if (!response.ok){
+                    console.error(response.statusText);
+                };
+                return response.json();
+            }).then(async(Response) =>{
+                // console.log(Response.result);
+                document.querySelector('.download-section').innerHTML = Audio_fragment(Response.result);
+            });
+            document.querySelector('.download-section').innerHTML = await loading_fragment();
+    }else{
         fetch(`${apikey}${UrlQuery.value}`)
             .then((response) =>{
                 if (!response.ok){
@@ -38,7 +49,7 @@ document.querySelector('#download-btn').addEventListener('click', async ()=>{
                     document.querySelector('.download-section').innerHTML = Video_fragment(Response.result);
                 };
             });
-            // document.querySelector('.download-video-area').innerHTML = await loading_fragment();
+            document.querySelector('.download-section').innerHTML = await loading_fragment();
             UrlQuery.value = '';
     }
 })
@@ -86,9 +97,26 @@ function Video_fragment(m){
                 </div>
             </div>`;
 };
+function Audio_fragment(a){
+    return `<div class="container download-video-area">
+                <hr class="container">
+                <div class="row g-0 text-center mt-4">
+                    <div class="col-sm-6 col-md-8 mx-auto">
+                        <h4 class="salsa-font">Download Audio:</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <audio src="${a.video2}" controls></audio>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="${a.video1}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD AUDIO/MP3</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>`;
+};
 function Images_Fragment(i){
-    return `
-                <div class="col">
+    return `<div class="col">
                     <div class="card">
                         <img src="${i}" class="card-img-top">
                         <div class="card-body">
