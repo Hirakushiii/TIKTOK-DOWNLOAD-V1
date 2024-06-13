@@ -1,4 +1,4 @@
-const apikey = 'https://api.nyx.my.id/dl/tiktok?url=';
+const apikey = 'https://api.nyxs.pw/dl/tiktok?url=';
 
 document.querySelector('#download-btn').addEventListener('click', async ()=>{
     let UrlQuery = document.querySelector('#query-download');
