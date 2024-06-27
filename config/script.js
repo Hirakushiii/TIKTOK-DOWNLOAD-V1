@@ -34,7 +34,7 @@ document.querySelector('#download-btn').addEventListener('click', async ()=>{
                 };
                 return response.json();
             }).then(async(Response) =>{
-                // BUAT VALIDASI APAKAH LINK TERSEBUT VIDEO ATAU FOTO SLIDESHOW!
+                // BUAT VALIDASI APAKAH LINK TERSEBUT VIDEO ATAU FOTO SLIDESHOW!  
                 // console.log(Response.result.type);
                 if( Response.result.type === "image"){
                     const alldata = Response.result.images;
