@@ -90,7 +90,7 @@ function Video_fragment(m){
                                 <a href="${m.video_watermark}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4 [WATERMARK]</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="${m.music}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD AUDIO/MP3</a>
+                                <a href="${m.music}" download="lovyuuu!<3"  class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD AUDIO/MP3</a>
                             </li>
                         </ul>
                     </div>
