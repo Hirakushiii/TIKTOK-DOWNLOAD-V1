@@ -1,4 +1,4 @@
-const apikey = 'https://api.nyx.my.id/dl/tiktok?url=';
+const apikey = 'https://api.nyxs.pw/dl/tiktok?url=';
 
 document.querySelector('#download-btn').addEventListener('click', async ()=>{
     let UrlQuery = document.querySelector('#query-download');
@@ -44,7 +44,7 @@ document.querySelector('#download-btn').addEventListener('click', async ()=>{
                     });
                     document.querySelector('.download-section').innerHTML = `<div class="container row row-cols-2 row-cols-md-3 g-4 mx-auto download-image-area"></div>`;
                     document.querySelector('.download-image-area').innerHTML = card;
-                    document.querySelector('.download-image-area').innerHTML += `<a href="${Response.result.music}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 mt-3 w-100">DOWNLOAD AUDIO/MP3</a>`;
+                    document.querySelector('.download-image-area').innerHTML += `<a href="${Response.result.music}" download class="btn bg-primary-subtle rounded my-1 mt-3 w-100">DOWNLOAD AUDIO/MP3</a>`;
                 }else{
                     document.querySelector('.download-section').innerHTML = Video_fragment(Response.result);
                 };
@@ -120,7 +120,7 @@ function Images_Fragment(i){
                     <div class="card">
                         <img src="${i}" class="card-img-top">
                         <div class="card-body">
-                            <a href="${i}" download="lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-100">DOWNLOAD PHOTO</a>
+                            <a href="${i}" download class="btn bg-primary-subtle rounded my-1 w-100">DOWNLOAD PHOTO</a>
                         </div>
                     </div>
                 </div>
