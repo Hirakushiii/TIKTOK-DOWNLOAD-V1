@@ -28,14 +28,22 @@ document.querySelector('#download-btn').addEventListener('click', async ()=>{
             document.querySelector('.download-section').innerHTML = await loading_fragment();
     }else{
         fetch(`${apikey}${UrlQuery.value}`)
-            .then((response) =>{
+            .then( async (response) =>{
                 if (!response.ok){
-                    console.error(response.statusText);
+                    await console.log(response);
+                    await alert('Error bro, hehe. Dari severnya nih jemberrr\nKamu bisa mengunjungi website tetangga jika urgent\n')
+                    const Konfirmasi = await confirm('Ingin pergi ke website tetangga?')
+                    if (Konfirmasi) {
+                        window.location.href = 'https://musicaldown.com/en'
+                    }else{
+                        return location.reload()
+                    }
                 };
                 return response.json();
+                // console.log(response);
             }).then(async(Response) =>{
                 // BUAT VALIDASI APAKAH LINK TERSEBUT VIDEO ATAU FOTO SLIDESHOW!  
-                // console.log(Response.result.type);
+                console.log(Response.result);
                 if( Response.result.type === "image"){
                     const alldata = Response.result.images;
                     let card = "";
@@ -70,20 +78,23 @@ function Video_fragment(m){
                 <div class="row g-0 text-center mt-4">
                     <div class="col-6 col-md-4 device-center">
                         <h4 class="salsa-font">Video Details:</h4>
-                        <img src="${m.thumbnail}" alt="" class="w-50 h-50 rounded-circle mb-2">
-                        <p class="vid-content">${m.caption}</p>
+                        <img src="${m.author.avatar}" alt="" class="w-50 h-50 rounded-circle mb-2">
+                        <p class="vid-content">${m.desc}</p>
                     </div>
                     <div class="col-sm-6 col-md-8">
                         <h4 class="salsa-font">Download Video:</h4>
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <a href="${m.video_sd}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4</a>
+                                <a href="${m.video}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="${m.video_hd}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4 [HD]</a>
+                                <a href="${m.videoHD}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4 [HD]</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="${m.audio}" download="lovyuuu!<3"  class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD AUDIO/MP3</a>
+                                <a href="${m.videoWatermark}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4 [WATERMARK]</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="${m.music}" download="lovyuuu!<3"  class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD AUDIO/MP3</a>
                             </li>
                         </ul>
                     </div>
