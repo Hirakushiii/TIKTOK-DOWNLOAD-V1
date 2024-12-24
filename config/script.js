@@ -101,7 +101,7 @@ function Video_fragment(m) {
                         <h4 class="salsa-font">Download Video:</h4>
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <a href="${m.video}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4</a>
+                                <a href="${m.videoSD}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4</a>
                             </li>
                             <li class="list-group-item">
                                 <a href="${m.videoHD}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">
