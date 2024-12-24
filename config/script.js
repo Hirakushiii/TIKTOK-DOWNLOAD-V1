@@ -85,6 +85,8 @@ document.querySelector("#clipboard-btn").addEventListener("click", () => {
   }
 });
 
+// <p class="vid-content">Like : ${m.statistics.likeCount} Comment : ${m.statistics.commentCount} Share : ${m.statistics.shareCount}</p>
+
 function Video_fragment(m) {
   return `<div class="container download-video-area">
                 <hr class="container">
@@ -93,7 +95,6 @@ function Video_fragment(m) {
                         <h4 class="salsa-font">Video Details:</h4>
                         <img src="${m.author.avatar}" alt="" class="w-50 h-50 rounded-circle mb-2">
                         <p class="vid-content fw-bold">${m.author.nickname}</p>
-                        <p class="vid-content">Like : ${m.statistics.likeCount} Comment : ${m.statistics.commentCount} Share : ${m.statistics.shareCount}</p>
                         <p class="vid-content">${m.desc}</p>
                     </div>
                     <div class="col-sm-6 col-md-8">
