@@ -105,21 +105,17 @@ function Video_fragment(m) {
                             </li>
                             <li class="list-group-item">
                                 <a href="${m.videoHD}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    Error!
-                                    <span class="visually-hidden">unread messages</span>
-                                </span>
                                 DOWNLOAD VIDEO/MP4 [HD]
                                 </a>
                             </li>
                             <li class="list-group-item">
+                                <a href="${m.videoWatermark}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4 [WATERMARK]</a>
+                            </li>
+                            <li class="list-group-item">
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                     Error!
                                     <span class="visually-hidden">unread messages</span>
                                 </span>
-                                <a href="${m.videoWatermark}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4 [WATERMARK]</a>
-                            </li>
-                            <li class="list-group-item">
                                 <a href="${m.music}" download="lovyuuu!<3"  class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD AUDIO/MP3</a>
                             </li>
                         </ul>
