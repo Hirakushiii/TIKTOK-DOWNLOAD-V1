@@ -1,7 +1,31 @@
 const apikey = "https://api.nyxs.pw/dl/tiktok?url=";
+const params = new URL(window.location.href);
+let UrlQuery = document.querySelector("#query-download");
+
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const lnValue = params.searchParams.get('ld');
+  const button = document.getElementById('download-btn');
+
+  if (lnValue) {
+    // 1. Isi input dalam section
+    const input = document.querySelector('#query-download');
+    input.value = lnValue;
+
+    // 2. Trigger tombol kirim secara otomatis
+    await simulateButtonClick(button); // Async/Await
+    console.log(lnValue);
+  }
+  // }else if(UrlQuery.value.includes('www.tiktok.com/')){
+  //   button.click();
+  // }
+});
+async function simulateButtonClick(button) {
+  await button.click(); // secara visual klik
+}
 
 document.querySelector("#download-btn").addEventListener("click", async () => {
-  let UrlQuery = document.querySelector("#query-download");
   if (UrlQuery.value === "") {
     return Swal.fire({
       title: "Ahhh?",
@@ -15,26 +39,33 @@ document.querySelector("#download-btn").addEventListener("click", async () => {
       icon: "error",
     });
   } else if (UrlQuery.value.includes("tiktok.com/music")) {
-    fetch(`${apikey}${UrlQuery.value}`)
-      .then((response) => {
-        if (!response.ok) {
-          console.error(response.statusText);
-        }
-        return response.json();
-      })
-      .then(async (Response) => {
-        // console.log(Response.result);
-        document.querySelector(".download-section").innerHTML = Audio_fragment(
-          Response.result
-        );
-      });
-    document.querySelector(".download-section").innerHTML =
-      await loading_fragment();
+    // await params.searchParams.set('ld', UrlQuery.value);
+    // window.history.replaceState({}, '', params);
+    // fetch(`${apikey}${UrlQuery.value}`)
+    // .then((response) => {
+    //   if (!response.ok) {
+    //     console.error(response.statusText);
+    //   }
+    //   return response.json();
+    // })
+    // .then(async (Response) => {
+    //   // console.log(Response.result);
+    //     document.querySelector(".download-section").innerHTML = Audio_fragment(
+    //       Response.result
+    //     );
+    //   });
+    document.querySelector(".download-section").innerHTML = await loading_fragment();
+    await Swal.fire({
+    title: "Upsss!",
+    text: "Sorry Bro, Untuk Pengunduhan Audio Only Sekarang Sedang Dalam Pebaikan. Jadii,  Diimbau Untuk Mengunduh Audio Menggunakan Link Video Dari Pemilik Asli Audio Tersebut! TERIMA KASIH... :>",
+      icon: "error",
+    });
+    window.location.reload();
   } else {
     fetch(`${apikey}${UrlQuery.value}`)
-      .then(async (response) => {
+    .then(async (response) => {
         if (!response.ok) {
-          await console.log(response);
+          // console.log(response);
           await alert(
             "Error bro, hehe. Dari severnya nih jemberrr\nKamu bisa mengunjungi website tetangga jika urgent\n"
           );
@@ -46,15 +77,16 @@ document.querySelector("#download-btn").addEventListener("click", async () => {
           }
         }
         return response.json();
-        // console.log(response);
       })
       .then(async (Response) => {
-        // BUAT VALIDASI APAKAH LINK TERSEBUT VIDEO ATAU FOTO SLIDESHOW!
-        console.log(Response.result);
-        if (Response.result.type === "image") {
-          const alldata = Response.result.images;
+        await params.searchParams.set('ld', UrlQuery.value);
+        window.history.replaceState({}, '', params);
+        // console.log(Response.result);
+        // BUAT VALIDASI APAKAH LINK TERSEBUT VIDEO ATAU FOTO SLIDESHOW! (RED LINE!!!)
+        if (Response.result.result.type === "image") {
+          const alldata = Response.result.result;
           let card = "";
-          alldata.forEach((e) => {
+          alldata.images.forEach((e) => {
             card += Images_Fragment(e);
           });
           document.querySelector(
@@ -63,15 +95,15 @@ document.querySelector("#download-btn").addEventListener("click", async () => {
           document.querySelector(".download-image-area").innerHTML = card;
           document.querySelector(
             ".download-image-area"
-          ).innerHTML += `<a href="${Response.result.music}" download class="btn bg-primary-subtle rounded my-1 mt-3 w-100">DOWNLOAD AUDIO/MP3</a>`;
+          ).innerHTML += `<a href="${alldata.music.playUrl}" download class="btn bg-primary-subtle rounded my-1 mt-3 w-100">DOWNLOAD AUDIO/MP3</a>`;
         } else {
+          // params.set('ld', toString(UrlQuery));
           document.querySelector(".download-section").innerHTML =
-            Video_fragment(Response.result);
+            Video_fragment(Response.result.result);
         }
       });
     document.querySelector(".download-section").innerHTML =
       await loading_fragment();
-    UrlQuery.value = "";
   }
 });
 document.querySelector("#clipboard-btn").addEventListener("click", () => {
@@ -84,6 +116,9 @@ document.querySelector("#clipboard-btn").addEventListener("click", () => {
     alert("Clipboardnya kosong wak!");
   }
 });
+document.querySelector("#refresh-btn").addEventListener("click", () => {
+  window.location.href = '/';
+});
 
 // <p class="vid-content">Like : ${m.statistics.likeCount} Comment : ${m.statistics.commentCount} Share : ${m.statistics.shareCount}</p>
 
@@ -93,30 +128,30 @@ function Video_fragment(m) {
                 <div class="row g-0 text-center mt-4">
                     <div class="col-6 col-md-4 device-center">
                         <h4 class="salsa-font">Video Details:</h4>
-                        <img src="${m.author.avatar}" alt="" class="w-50 h-50 rounded-circle mb-2">
+                        <img src="${m.author.avatarThumb[0]}" alt="" class="w-50 h-50 rounded-circle mb-2">
                         <p class="vid-content fw-bold">${m.author.nickname}</p>
-                        <p class="vid-content">${m.desc}</p>
+                        <p class="vid-content">${m.description}</p>
                     </div>
                     <div class="col-sm-6 col-md-8">
                         <h4 class="salsa-font">Download Video:</h4>
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <a href="${m.videoSD}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4</a>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                    Top!
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                                <a href="${m.video.playAddr[0]}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="${m.videoHD}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">
-                                DOWNLOAD VIDEO/MP4 [HD]
+                                <a href="${m.video.playAddr[1]}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">
+                                DOWNLOAD VIDEO/MP4 [2]
                                 </a>
                             </li>
                             <li class="list-group-item">
-                                <a href="${m.videoWatermark}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4 [WATERMARK]</a>
+                                <a href="${m.video.downloadAddr}" download="tiktokbykenn/lovyuuu!<3" class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD VIDEO/MP4 [WATERMARK]</a>
                             </li>
                             <li class="list-group-item">
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    Error!
-                                    <span class="visually-hidden">unread messages</span>
-                                </span>
-                                <a href="${m.music}" download="lovyuuu!<3"  class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD AUDIO/MP3</a>
+                                <a href="${m.music.playUrl[0]}" download="lovyuuu!<3"  class="btn bg-primary-subtle rounded my-1 w-50">DOWNLOAD AUDIO/MP3</a>
                             </li>
                         </ul>
                     </div>
