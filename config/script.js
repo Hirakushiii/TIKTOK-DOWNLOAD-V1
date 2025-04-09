@@ -83,8 +83,8 @@ document.querySelector("#download-btn").addEventListener("click", async () => {
         window.history.replaceState({}, '', params);
         // console.log(Response.result);
         // BUAT VALIDASI APAKAH LINK TERSEBUT VIDEO ATAU FOTO SLIDESHOW! (RED LINE!!!)
-        if (Response.result.result.type === "image") {
-          const alldata = Response.result.result;
+        if (Response.result.type === "image") {
+          const alldata = Response.result;
           let card = "";
           alldata.images.forEach((e) => {
             card += Images_Fragment(e);
@@ -99,7 +99,7 @@ document.querySelector("#download-btn").addEventListener("click", async () => {
         } else {
           // params.set('ld', toString(UrlQuery));
           document.querySelector(".download-section").innerHTML =
-            Video_fragment(Response.result.result);
+            Video_fragment(Response.result);
         }
       });
     document.querySelector(".download-section").innerHTML =
